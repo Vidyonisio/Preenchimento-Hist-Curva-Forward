@@ -1,0 +1,25 @@
+Sub Puxa_extr_bbce()
+
+Dim WP As Workbook 'Pasta de Trabalho Atual'
+Dim WS As Workbook 'Nova Pasta de Trabalha'
+Dim WPSheet As Worksheet 'Planilha atual'
+
+Set WP = Workbooks("Histórico Curva Forward BBCE.xlsm")
+Dim nome_sheet As String
+nome_sheet = InputBox("Digite o nome da Página a ser preenchida", "Nome da Página")
+Set WPSheet = WP.Sheets(nome_sheet)
+
+Dim n_dia As Variant
+n_dia = InputBox("Digite o número de Curvas Forwards Diponíveis", "Número de CFs")
+
+For x = 1 To n_dia
+    pasta = Application.ThisWorkbook.Path & "\bbce_curva (" & x & ").xlsx"
+    Set WS = Workbooks.Open(pasta)
+    Set WSSheet = WS.Sheets("Curva")
+    For y = 1 To 45
+        WPSheet.Cells(y + 1, 1) = WSSheet.Cells(y, 1)
+        WPSheet.Cells(y + 1, x + 1) = WSSheet.Cells(y, 2)
+    Next
+    WS.Close
+Next
+End Sub
